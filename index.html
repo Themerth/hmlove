@@ -64,44 +64,12 @@
     .floating-photo {
       position: absolute;
       border: 5px solid white;
-      border-radius: 15px;
-      max-width: 150px;
+      border-radius: 50%;
+      width: 20vw; /* Adjust to device width */
+      height: 20vw; /* Maintain aspect ratio */
+      object-fit: cover;
       z-index: 1;
     }
-.floating-photo {
-  position: absolute;
-  border: 5px solid white;
-  border-radius: 15px;
-  max-width: 150px;
-  z-index: 1;
-
-  /* Added properties to remove black areas */
-  object-fit: cover;
-  width: 150px;
-  height: 250px; /* Adjust height as necessary */
-  overflow: hidden;
-}
-.floating-photo {
-  position: absolute;
-  border: 5px solid white;
-  border-radius: 50%; /* Makes the image round */
-  width: 150px; /* Ensure width and height are equal */
-  height: 150px; /* Ensure width and height are equal */
-  object-fit: cover; /* Ensures the image fills the circular frame without distortion */
-  z-index: 1;
-}
-
-}
-.floating-photo {
-  position: absolute;
-  border: 5px solid white;
-  border-radius: 50%; /* Keeps the image round */
-  width: 250px; /* Increased size */
-  height: 250px; /* Ensure width and height remain equal */
-  object-fit: cover; /* Ensures the image fills the circular frame without distortion */
-  z-index: 1;
-}
-
 
     @keyframes fall {
       0% {
@@ -112,9 +80,22 @@
       }
     }
 
+    @-webkit-keyframes fall {
+      0% {
+        -webkit-transform: translateY(0);
+      }
+      100% {
+        -webkit-transform: translateY(100vh);
+      }
+    }
+
     .confetti-container div {
       position: absolute;
       animation-timing-function: ease-in;
+      animation-name: fall;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      will-change: transform;
     }
   </style>
 </head>
@@ -136,7 +117,7 @@
       <img src="Screenshot_20241122-133848_Gallery.jpg" alt="Photo 10" class="floating-photo">
     </div>
   </div>
- <script>
+  <script>
     // Confetti function
     function createConfetti() {
       const confettiContainer = document.getElementById('confetti-container');
@@ -236,8 +217,13 @@
       createSmallHearts();
 
       if (!songPlayed) {
-        backgroundMusic.play(); // Play the song
-        songPlayed = true; // Set the flag to true
+        backgroundMusic.play().catch((err) => {
+          alert('Please tap the heart again to enable audio playback.');
+          console.error(err);
+        });
+        songPlayed = true;
       }
     });
   </script>
+</body>
+</html>
